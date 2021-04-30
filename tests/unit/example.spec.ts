@@ -8,5 +8,5 @@ describe("HelloWorld.vue", () => {
       props: { msg },
     });
     expect(wrapper.text()).toMatch(msg);
-  });
+  })
 });

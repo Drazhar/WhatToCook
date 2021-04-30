@@ -1,14 +1,25 @@
 <template>
-  <h1>Hello world</h1>
+  <h1>{{ currentRecipe }}</h1>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
+import { Options, Vue } from "vue-class-component"
+import { MongoConnection } from "./utils/Classes/MongoConnection"
+import { RecipeCollection } from "./utils/Classes/RecipeCollection"
 
 @Options({
   components: {},
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  currentRecipe = "none"
+
+  mounted(): void {
+    const mC = new MongoConnection("WhatToEat")
+    mC.getDocuments().then((value) => {
+      const rC = new RecipeCollection(value)
+    })
+  }
+}
 </script>
 
 <style>
