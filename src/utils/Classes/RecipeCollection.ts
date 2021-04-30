@@ -1,6 +1,5 @@
 import { getRandom } from "../utilities"
 import { nanoid } from "nanoid"
-import { MongoConnection } from "./MongoConnection"
 
 export interface Recipe {
   _id: string
@@ -11,7 +10,7 @@ export interface Recipe {
 
 export class RecipeCollection {
   recipes: Recipe[] = []
-  #selectedIndex = 0
+  private selectedIndex = 0
 
   constructor(recipes?: Recipe[]) {
     if (recipes) this.recipes = recipes
@@ -45,7 +44,7 @@ export class RecipeCollection {
       const item = this.recipes[i]
       selectProbability -= item.probability / Math.pow(2, item.box)
       if (selectProbability <= 0) {
-        this.#selectedIndex = i
+        this.selectedIndex = i
         return item
       }
     }
@@ -54,20 +53,20 @@ export class RecipeCollection {
   }
 
   getLastSelectedRecipe(): Recipe {
-    return this.recipes[this.#selectedIndex]
+    return this.recipes[this.selectedIndex]
   }
 
   declineSelection(): void {
-    this.recipes[this.#selectedIndex].box++
+    this.recipes[this.selectedIndex].box++
   }
 
   acceptSelection(): void {
-    if (this.recipes[this.#selectedIndex].box > 0)
-      this.recipes[this.#selectedIndex].box--
+    if (this.recipes[this.selectedIndex].box > 0)
+      this.recipes[this.selectedIndex].box--
   }
 
-  async pushToDatabase(): Promise<void> {
+  /* async pushToDatabase(): Promise<void> {
     const mongoConnection = new MongoConnection("WhatToEat")
     mongoConnection.insertDocuments(this.recipes)
-  }
+  } */
 }

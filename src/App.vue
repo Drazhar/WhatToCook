@@ -1,10 +1,13 @@
 <template>
-  <h1>{{ currentRecipe }}</h1>
+  <div>
+    <h1>{{ currentRecipe }}</h1>
+    <button @click="yes">Yes</button>
+    <button @click="no">No</button>
+  </div>
 </template>
 
 <script lang="ts">
 import { Options, Vue } from "vue-class-component"
-import { MongoConnection } from "./utils/Classes/MongoConnection"
 import { RecipeCollection } from "./utils/Classes/RecipeCollection"
 
 @Options({
@@ -12,12 +15,24 @@ import { RecipeCollection } from "./utils/Classes/RecipeCollection"
 })
 export default class App extends Vue {
   currentRecipe = "none"
+  recipeCollection = new RecipeCollection()
 
   mounted(): void {
-    const mC = new MongoConnection("WhatToEat")
-    mC.getDocuments().then((value) => {
-      const rC = new RecipeCollection(value)
-    })
+    this.recipeCollection.addRecipe("Nudeln mit Tomatensosse")
+    this.recipeCollection.addRecipe("Palak Paneer")
+    this.recipeCollection.addRecipe("Shahi Paneer")
+    this.recipeCollection.addRecipe("Kartoffeln mit Spinat")
+    this.currentRecipe = this.recipeCollection.autoSelectRecipe().name
+  }
+
+  yes(): void {
+    this.recipeCollection.acceptSelection()
+    this.currentRecipe = this.recipeCollection.autoSelectRecipe().name
+  }
+
+  no(): void {
+    this.recipeCollection.declineSelection()
+    this.currentRecipe = this.recipeCollection.autoSelectRecipe().name
   }
 }
 </script>
