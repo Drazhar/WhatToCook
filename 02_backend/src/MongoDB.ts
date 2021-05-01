@@ -3,12 +3,17 @@ const { MongoClient } = require("mongodb")
 export class MongoDB {
   dbName: string
   client: any
+  recipes: any
 
   constructor(dbName: string) {
     this.dbName = dbName
     this.client = new MongoClient(process.env.DB_URI as string, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+    })
+    this.client.connect().then(() => {
+      const database = this.client.db(this.dbName)
+      this.recipes = database.collection("recipes")
     })
   }
 
@@ -26,17 +31,7 @@ export class MongoDB {
   } */
 
   async getRecipes() {
-    let result
-    try {
-      await this.client.connect()
-      const database = this.client.db(this.dbName)
-      const recipes = database.collection("recipes")
-
-      const cursor = recipes.find()
-      result = await cursor.toArray()
-    } finally {
-      await this.client.close()
-    }
-    return result
+    const cursor = this.recipes.find()
+    return await cursor.toArray()
   }
 }
