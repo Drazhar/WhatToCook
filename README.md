@@ -1,9 +1,10 @@
-# hello-world
+# WhatToCook?!
 
 ## Project setup
 ```
-npm install
+npm run postinstall
 ```
+The project is splitted into back- and frontend with seperate package.json files. To install all modules simply run the postinstall command. This will run the ``npm i`` in each subdirectory.
 
 ### Compiles and hot-reloads for development
 ```

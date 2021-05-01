@@ -35,7 +35,7 @@
     "vue-jest": "^5.0.0-0"
   },
   "prettier": {
-    "endOfLine":"auto",
+    "endOfLine": "auto",
     "tabWidth": 2,
     "semi": false
   }
