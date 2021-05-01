@@ -1,6 +1,6 @@
 const { MongoClient } = require("mongodb")
 
-export class MongoConnection {
+export class MongoDB {
   dbName: string
   client: any
 
@@ -25,7 +25,7 @@ export class MongoConnection {
     }
   } */
 
-  async getDocuments() {
+  async getRecipes() {
     let result
     try {
       await this.client.connect()
