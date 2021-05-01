@@ -18,11 +18,17 @@ export default class App extends Vue {
   recipeCollection = new RecipeCollection()
 
   mounted(): void {
-    this.recipeCollection.addRecipe("Nudeln mit Tomatensosse")
-    this.recipeCollection.addRecipe("Palak Paneer")
-    this.recipeCollection.addRecipe("Shahi Paneer")
-    this.recipeCollection.addRecipe("Kartoffeln mit Spinat")
-    this.currentRecipe = this.recipeCollection.autoSelectRecipe().name
+    fetch("http://localhost:3000/api/getRecipes", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((recipes) => {
+        this.recipeCollection.recipes = recipes
+        this.currentRecipe = this.recipeCollection.autoSelectRecipe().name
+      })
   }
 
   yes(): void {
