@@ -1,5 +1,4 @@
 import { Recipe, RecipeCollection } from "@/utils/Classes/RecipeCollection"
-import { isReactive } from "@vue/reactivity"
 
 describe("RecipeCollection", () => {
   let rC: RecipeCollection
