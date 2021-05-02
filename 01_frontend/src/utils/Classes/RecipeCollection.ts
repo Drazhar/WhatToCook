@@ -64,9 +64,4 @@ export class RecipeCollection {
     if (this.recipes[this.selectedIndex].box > 0)
       this.recipes[this.selectedIndex].box--
   }
-
-  /* async pushToDatabase(): Promise<void> {
-    const mongoConnection = new MongoConnection("WhatToEat")
-    mongoConnection.insertDocuments(this.recipes)
-  } */
 }

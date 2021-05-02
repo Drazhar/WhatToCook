@@ -1,5 +1,5 @@
-import "jest"
 import { Recipe, RecipeCollection } from "@/utils/Classes/RecipeCollection"
+import { isReactive } from "@vue/reactivity"
 
 describe("RecipeCollection", () => {
   let rC: RecipeCollection
@@ -10,6 +10,14 @@ describe("RecipeCollection", () => {
   describe("Basic", () => {
     test("Initializes", () => {
       expect(rC).toBeTruthy()
+    })
+
+    it("initializes with arguments", () => {
+      const inputRecipes = [
+        { _id: "0", name: "anyName", probability: 1, box: 0 },
+      ]
+      const recipeCollectionWithArgs = new RecipeCollection(inputRecipes)
+      expect(recipeCollectionWithArgs.recipes).toBe(inputRecipes)
     })
 
     test("Initializes empty", () => {
@@ -79,6 +87,13 @@ describe("RecipeCollection", () => {
         const currentRecipe = rC.autoSelectRecipe()
         if (currentRecipe == exampleRecipe) recipeIsFound = true
       }
+      rC.acceptSelection()
+      expect(rC.getLastSelectedRecipe().box).toBe(0)
+    })
+
+    test("acceptSelection shouldn't increase the box if box is already 0", () => {
+      rC.autoSelectRecipe()
+      expect(rC.getLastSelectedRecipe().box).toBe(0)
       rC.acceptSelection()
       expect(rC.getLastSelectedRecipe().box).toBe(0)
     })

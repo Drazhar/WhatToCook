@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watchAll",
+    "test:coverage": "jest --watchAll --collectCoverage",
     "build": "tsc --watch",
     "watch": "nodemon -r dotenv/config ./build/index.js dotenv_config_path=./.env.local"
   },
