@@ -9,6 +9,7 @@
 <script lang="ts">
 import { Options, Vue } from "vue-class-component"
 import { RecipeCollection } from "./utils/Classes/RecipeCollection"
+import { getRecipes } from "./utils/apiCommunication"
 
 @Options({
   components: {},
@@ -18,17 +19,10 @@ export default class App extends Vue {
   recipeCollection = new RecipeCollection()
 
   mounted(): void {
-    fetch("http://localhost:3000/api/getRecipes", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+    getRecipes().then((recipes) => {
+      this.recipeCollection.recipes = recipes
+      this.currentRecipe = this.recipeCollection.autoSelectRecipe().name
     })
-      .then((response) => response.json())
-      .then((recipes) => {
-        this.recipeCollection.recipes = recipes
-        this.currentRecipe = this.recipeCollection.autoSelectRecipe().name
-      })
   }
 
   yes(): void {
