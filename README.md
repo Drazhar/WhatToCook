@@ -14,3 +14,8 @@ npm start
 - tsc compiler for the backend
 - nodemon to run and watch for changes at the backend
 - vue serve to serve the frontend in a live server
+
+
+## Run tests
+Jest is used for the testing framework. By default all tests are run in --watchAll mode. 
+It's possible to start the tests concurrently for the back- and frontend by calling ``npm test`` in the root directory or only for either one by calling ``npm test`` in the corrisponding directory.
