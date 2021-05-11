@@ -1,40 +1,46 @@
 <template>
-  <div>
-    <h1>{{ currentRecipe }}</h1>
-    <button @click="yes">Yes</button>
-    <button @click="no">No</button>
+  <div id="app">
+    <div id="addRecipe">
+      <input
+        type="text"
+        name="Name"
+        id="inputRecipeName"
+        placeholder="Add new recipe..."
+      />
+      <button @click="addRecipe">Add recipe</button>
+    </div>
+    <RecipeCard msg="Hello" />
   </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component"
-import { RecipeCollection } from "./utils/Classes/RecipeCollection"
-import { getRecipes } from "./utils/apiCommunication"
+import Vue from "vue"
+import RecipeCard from "./components/RecipeCard.vue"
+import store from "@/store"
 
-@Options({
-  components: {},
+export default Vue.extend({
+  name: "App",
+  components: {
+    RecipeCard,
+  },
+  methods: {
+    addRecipe() {
+      const recipeNameInput = document.getElementById(
+        "inputRecipeName"
+      ) as HTMLInputElement
+      const recipeName = recipeNameInput.value
+      if (!recipeName) {
+        alert("No name entered")
+        return
+      }
+      store.dispatch("addRecipe", { name: recipeName })
+      recipeNameInput.value = ""
+    },
+  },
+  created() {
+    store.dispatch("getRecipes")
+  },
 })
-export default class App extends Vue {
-  currentRecipe = "none"
-  recipeCollection = new RecipeCollection()
-
-  mounted(): void {
-    getRecipes().then((recipes) => {
-      this.recipeCollection.recipes = recipes
-      this.currentRecipe = this.recipeCollection.autoSelectRecipe().name
-    })
-  }
-
-  yes(): void {
-    this.recipeCollection.acceptSelection()
-    this.currentRecipe = this.recipeCollection.autoSelectRecipe().name
-  }
-
-  no(): void {
-    this.recipeCollection.declineSelection()
-    this.currentRecipe = this.recipeCollection.autoSelectRecipe().name
-  }
-}
 </script>
 
 <style>

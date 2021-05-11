@@ -17,21 +17,21 @@ export class MongoDB {
     })
   }
 
-  /* async insertDocuments(data: Recipe[]) {
-    try {
-      await this.client.connect()
-
-      const database = this.client.db(this.dbName)
-      const recipes = database.collection("recipes")
-
-      await recipes.insertMany(data)
-    } finally {
-      await this.client.close()
-    }
-  } */
+  async insertDocuments(data) {
+    await this.recipes.insertOne(data)
+  }
 
   async getRecipes() {
     const cursor = this.recipes.find()
-    return await cursor.toArray()
+    const result = await cursor.toArray()
+    return recipesArrayToObject(result)
   }
+}
+
+function recipesArrayToObject(recipesArray) {
+  const result = {}
+  recipesArray.forEach((value) => {
+    result[value._id] = { name: value.name, box: value.box }
+  })
+  return result
 }

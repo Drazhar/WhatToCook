@@ -10,4 +10,9 @@ router.get("/getRecipes", (req, res) => {
   })
 })
 
+router.post("/addRecipe", (req, res) => {
+  mongo.insertDocuments(req.body)
+  res.sendStatus(200)
+})
+
 module.exports = router

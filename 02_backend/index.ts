@@ -17,6 +17,8 @@ app.use((req, res, next) => {
   next()
 })
 
+app.use(express.json())
+
 // Routes
 app.use("/api", require("./routes/api"))
 

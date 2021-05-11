@@ -21,5 +21,6 @@
   "homepage": "https://github.com/Drazhar/WhatToCook#readme",
   "devDependencies": {
     "concurrently": "^6.0.2"
-  }
+  },
+  "dependencies": {}
 }
