@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id="addRecipe">
+    <!-- <div id="addRecipe">
       <input
         type="text"
         name="Name"
@@ -8,8 +8,16 @@
         placeholder="Add new recipe..."
       />
       <button @click="addRecipe">Add recipe</button>
+    </div> -->
+    <button @click="shuffleDeck">Shuffle</button>
+    <div
+      v-for="(recipe, index) in recipeDeck.slice(
+        Math.max(recipeDeck.length - 5, 1)
+      )"
+      :key="recipe[0]"
+    >
+      <RecipeCard :recipe="recipe" :index="index" />
     </div>
-    <RecipeCard msg="Hello" />
   </div>
 </template>
 
@@ -17,11 +25,18 @@
 import Vue from "vue"
 import RecipeCard from "./components/RecipeCard.vue"
 import store from "@/store"
+import BinarySearchTree from "@/lib/binarySearchTree"
 
 export default Vue.extend({
   name: "App",
   components: {
     RecipeCard,
+  },
+  data() {
+    const recipeDeck: any[] = []
+    return {
+      recipeDeck,
+    }
   },
   methods: {
     addRecipe() {
@@ -36,6 +51,22 @@ export default Vue.extend({
       store.dispatch("addRecipe", { name: recipeName })
       recipeNameInput.value = ""
     },
+    shuffleDeck() {
+      interface Recipes {
+        [prop: string]: {
+          box: number
+          name: string
+        }
+      }
+      const bst = new BinarySearchTree()
+      const recipes: Recipes = store.state.recipes as Recipes
+      let id: keyof typeof recipes
+      for (id in recipes) {
+        const order = Math.random() * Math.pow(2, recipes[id].box)
+        bst.insert(order, [id, recipes[id]])
+      }
+      this.recipeDeck = bst.getSortedArr()
+    },
   },
   created() {
     store.dispatch("getRecipes")
@@ -49,7 +80,7 @@ export default Vue.extend({
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #333;
   margin-top: 60px;
 }
 </style>
