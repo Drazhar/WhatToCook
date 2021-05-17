@@ -11,10 +11,16 @@ export class MongoDB {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
-    this.client.connect().then(() => {
-      const database = this.client.db(this.dbName)
-      this.recipes = database.collection("recipes")
-    })
+    this.client
+      .connect()
+      .then(() => {
+        const database = this.client.db(this.dbName)
+        this.recipes = database.collection("recipes")
+      })
+      .catch((err) => {
+        console.log("Couldn't connect to database...")
+        console.log(err)
+      })
   }
 
   async insertDocuments(data) {
