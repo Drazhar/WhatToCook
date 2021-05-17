@@ -26,6 +26,10 @@ export class MongoDB {
     const result = await cursor.toArray()
     return recipesArrayToObject(result)
   }
+
+  async updateValue(_id, payload) {
+    this.recipes.updateOne({ _id }, { $set: payload })
+  }
 }
 
 function recipesArrayToObject(recipesArray) {

@@ -15,4 +15,16 @@ router.post("/addRecipe", (req, res) => {
   res.sendStatus(200)
 })
 
+router.post("/modifyBox", (req, res) => {
+  mongo.updateValue(req.body[0], { box: req.body[1].box })
+  res.sendStatus(200)
+})
+
+router.post("/updateRecipes", (req, res) => {
+  for (const id in req.body) {
+    mongo.updateValue(id, { box: req.body[id].box })
+  }
+  res.sendStatus(200)
+})
+
 module.exports = router
