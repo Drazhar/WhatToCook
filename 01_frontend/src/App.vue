@@ -9,8 +9,14 @@
       />
       <button @click="addRecipe">Add recipe</button>
     </div> -->
-    <button id="refresh" @click="shuffleDeck">
+    <button class="menuBtn" id="refresh" @click="shuffleDeck">
       <i class="fas fa-sync-alt"></i>
+    </button>
+    <button class="menuBtn" id="btnAddRecipe">
+      <i class="far fa-plus-square"></i>
+    </button>
+    <button class="menuBtn" id="btnCart">
+      <i class="fas fa-shopping-cart"></i>
     </button>
 
     <div id="cardContainer">
@@ -78,7 +84,6 @@ export default Vue.extend({
         bst.insert(order, [id, recipes[id]])
       }
       this.recipeDeck = bst.getSortedArr()
-      console.log(this.recipeDeck.length)
     },
     arrayHead(arr, count) {
       if (arr.length > count) return arr.slice(Math.max(arr.length - count, 1))
@@ -123,14 +128,28 @@ export default Vue.extend({
   z-index: 10;
 }
 
-#refresh {
+.menuBtn {
   position: absolute;
-  bottom: 20px;
-  right: 20px;
   font-size: 30px;
   border: none;
   background-color: rgba(0, 0, 0, 0);
   cursor: pointer;
+}
+
+#refresh {
+  bottom: 20px;
+  right: 20px;
+}
+
+#btnAddRecipe {
+  bottom: 20px;
+  left: 20px;
+}
+
+#btnCart {
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 #choiceButtons button {
