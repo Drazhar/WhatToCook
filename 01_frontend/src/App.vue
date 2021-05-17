@@ -20,7 +20,7 @@
     </button>
 
     <div id="cardContainer">
-      <transition-group name="cards">
+      <transition-group v-bind:name="transitionName">
         <div
           class="cards"
           v-for="(recipe, index) in cappedRecipeDeck"
@@ -63,6 +63,10 @@ export default Vue.extend({
   computed: {
     cappedRecipeDeck: function () {
       return this.arrayHead(this.recipeDeck, 50)
+    },
+    transitionName: function () {
+      if (this.cappedRecipeDeck.length > 10) return "cards"
+      return "altCards"
     },
   },
   methods: {
@@ -166,7 +170,8 @@ export default Vue.extend({
   cursor: pointer;
 }
 
-.cards {
+.cards,
+.altCards {
   transition: all 0.2s;
 }
 
@@ -174,7 +179,12 @@ export default Vue.extend({
   transform: translateX(-100%);
 }
 
-.cards-enter {
+.altCards-leave-to {
+  transform: translate(0, 80vh) scale(0.1);
+}
+
+.cards-enter,
+.altCards-enter {
   opacity: 0;
 }
 </style>
