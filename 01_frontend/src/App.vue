@@ -211,7 +211,8 @@ export default Vue.extend({
 }
 
 .altCards-leave-to {
-  transform: translate(0, 80vh) scale(0.1);
+  transform: translate(0, 80vh) scale(0.05);
+  opacity: 0.4;
 }
 
 .cards-enter,
