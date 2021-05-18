@@ -16,6 +16,7 @@
       <i class="far fa-plus-square"></i>
     </button>
     <button class="menuBtn" id="btnCart">
+      <p v-if="bookmarksLength > 0">{{ bookmarksLength }}</p>
       <i class="fas fa-shopping-cart"></i>
     </button>
 
@@ -58,15 +59,16 @@ export default Vue.extend({
     const recipeDeck = []
     return {
       recipeDeck,
+      transitionName: "cards",
     }
   },
   computed: {
     cappedRecipeDeck: function () {
       return this.arrayHead(this.recipeDeck, 50)
     },
-    transitionName: function () {
-      if (this.cappedRecipeDeck.length > 10) return "cards"
-      return "altCards"
+    bookmarksLength: function () {
+      console.log(Object.keys(store.state.bookmarks).length)
+      return Object.keys(store.state.bookmarks).length
     },
   },
   methods: {
@@ -94,12 +96,15 @@ export default Vue.extend({
       return arr
     },
     declineRecipe() {
+      this.transitionName = "cards"
       const recipe = this.recipeDeck.pop()
       store.dispatch("increaseBox", recipe)
     },
     acceptRecipe() {
+      this.transitionName = "altCards"
       const recipe = this.recipeDeck.pop()
       store.dispatch("decreaseBox", recipe)
+      store.commit("addRecipeBookmarks", recipe)
     },
   },
   created() {
@@ -154,6 +159,21 @@ export default Vue.extend({
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
+}
+
+#btnCart p {
+  position: absolute;
+  top: -50%;
+  right: 0;
+  font-size: 12px;
+  line-height: 19px;
+  text-align: center;
+  vertical-align: center;
+  color: whitesmoke;
+  border-radius: 50%;
+  background-color: #ef476f;
+  height: 19px;
+  width: 19px;
 }
 
 #choiceButtons button {

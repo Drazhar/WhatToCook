@@ -8,16 +8,20 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     recipes: {},
+    bookmarks: {},
   },
   mutations: {
     getRecipes(state, data) {
       state.recipes = data
     },
     addRecipe(state, recipe) {
-      state.recipes[recipe._id] = { name: recipe.name, box: recipe.box }
+      state.recipes = { ...state.recipes, [recipe[0]]: recipe[1] }
     },
     modifyBox(state, recipe) {
       state.recipes[recipe[0]].box = recipe[1].box
+    },
+    addRecipeBookmarks(state, recipe) {
+      state.bookmarks = { ...state.bookmarks, [recipe[0]]: recipe[1] }
     },
   },
   actions: {
