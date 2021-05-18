@@ -36,7 +36,7 @@ export default Vue.extend({
     },
     blur: function () {
       if (this.count <= 1) return 0
-      return (-5 / this.countSubOne) * this.index + 5
+      return (-3 / this.countSubOne) * this.index + 3
     },
     x: function () {
       return `transform: translate(-50%, ${this.translate}px) scale(${this.scale}); filter: blur(${this.blur}px);`
