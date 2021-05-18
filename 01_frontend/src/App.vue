@@ -66,9 +66,11 @@ export default Vue.extend({
     cappedRecipeDeck: function () {
       return this.arrayHead(this.recipeDeck, 50)
     },
+    bookmarks: function () {
+      return store.state.bookmarks
+    },
     bookmarksLength: function () {
-      console.log(Object.keys(store.state.bookmarks).length)
-      return Object.keys(store.state.bookmarks).length
+      return Object.keys(this.bookmarks).length
     },
   },
   methods: {
@@ -86,10 +88,19 @@ export default Vue.extend({
       const bst = new BinarySearchTree()
       const recipes = store.state.recipes
       for (const id in recipes) {
-        const order = Math.random() * Math.pow(2, recipes[id].box)
-        bst.insert(order, [id, recipes[id]])
+        if (!(id in this.bookmarks)) {
+          const order = Math.random() * Math.pow(2, recipes[id].box)
+          bst.insert(order, [id, recipes[id]])
+        }
       }
       this.recipeDeck = bst.getSortedArr()
+      if (this.recipeDeck.length < 1) {
+        if (Object.keys(recipes).length === 0) {
+          console.log("No recipes in collection")
+        } else {
+          console.log("All recipes are already bookmarked")
+        }
+      }
     },
     arrayHead(arr, count) {
       if (arr.length > count) return arr.slice(Math.max(arr.length - count, 1))
