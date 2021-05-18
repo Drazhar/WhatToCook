@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Bookmarks />
     <!-- <div id="addRecipe">
       <input
         type="text"
@@ -47,6 +48,7 @@
 <script>
 import Vue from "vue"
 import RecipeCard from "./components/RecipeCard.vue"
+import Bookmarks from "./components/Bookmarks.vue"
 import store from "@/store"
 import BinarySearchTree from "@/lib/binarySearchTree"
 
@@ -54,6 +56,7 @@ export default Vue.extend({
   name: "App",
   components: {
     RecipeCard,
+    Bookmarks,
   },
   data() {
     const recipeDeck = []
@@ -109,17 +112,21 @@ export default Vue.extend({
     declineRecipe() {
       this.transitionName = "cards"
       const recipe = this.recipeDeck.pop()
+      if (this.recipeDeck.length === 0) this.shuffleDeck()
       store.dispatch("increaseBox", recipe)
     },
     acceptRecipe() {
       this.transitionName = "altCards"
       const recipe = this.recipeDeck.pop()
+      if (this.recipeDeck.length === 0) this.shuffleDeck()
       store.dispatch("decreaseBox", recipe)
       store.commit("addRecipeBookmarks", recipe)
     },
   },
   created() {
-    store.dispatch("getRecipes")
+    store.dispatch("getRecipes").then(() => {
+      this.shuffleDeck()
+    })
   },
 })
 </script>
@@ -201,8 +208,7 @@ export default Vue.extend({
   cursor: pointer;
 }
 
-.cards,
-.altCards {
+.cards {
   transition: all 0.2s;
 }
 
