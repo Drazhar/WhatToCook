@@ -7,18 +7,10 @@ import AddRecipe from "@/views/AddRecipe.vue"
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: "/",
-    component: Main,
-  },
-  {
-    path: "/bookmarks",
-    component: Bookmarks,
-  },
-  {
-    path: "/add",
-    component: AddRecipe,
-  },
+  { path: "/", component: Main },
+  { path: "/bookmarks", component: Bookmarks },
+  { path: "/add", component: AddRecipe },
+  { path: "*", component: Main },
 ]
 
 const router = new VueRouter({

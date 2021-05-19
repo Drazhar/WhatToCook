@@ -1,16 +1,18 @@
 <template>
-  <div class="card" :style="x">
-    <button id="edit"><i class="fas fa-pen"></i></button>
-    <h1 class="recipeName">
-      {{ recipe[1].name }}
-    </h1>
-    <hr />
-    <table>
-      <tr>
-        <td>500g</td>
-        <td>Tomaten</td>
-      </tr>
-    </table>
+  <div>
+    <div class="card" :style="x">
+      <button id="edit"><i class="fas fa-pen"></i></button>
+      <h1 class="recipeName">
+        {{ recipe[1].name }}
+      </h1>
+      <hr />
+      <table>
+        <tr>
+          <td>500g</td>
+          <td>Tomaten</td>
+        </tr>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -27,8 +29,8 @@ export default Vue.extend({
       return 1
     },
     translate: function () {
-      if (this.count <= 1) return 120
-      return (120 / this.countSubOne) * this.index
+      if (this.count <= 1) return 0
+      return (120 / this.countSubOne) * this.index - 120
     },
     scale: function () {
       if (this.count <= 1) return 1

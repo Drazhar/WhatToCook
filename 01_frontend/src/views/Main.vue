@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="main">
     <div id="cardContainer">
       <transition-group v-bind:name="transitionName">
         <div
@@ -15,6 +15,7 @@
         </div>
       </transition-group>
     </div>
+
     <div v-if="cappedRecipeDeck.length > 0" id="choiceButtons">
       <button @click="acceptRecipe" style="background-color: #118ab2">
         Yes
@@ -93,9 +94,15 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+#main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
 #cardContainer {
-  position: relative;
-  height: 70vh;
+  height: 402px;
 }
 
 #choiceButtons {
@@ -103,6 +110,7 @@ export default Vue.extend({
   flex-direction: row;
   justify-content: center;
   z-index: 1;
+  margin-top: 10px;
 }
 
 #choiceButtons button {

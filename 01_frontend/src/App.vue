@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <router-view></router-view>
-
+    <router-view :key="$route.path" />
     <BottomMenu />
   </div>
 </template>
@@ -15,6 +14,9 @@ export default Vue.extend({
   name: "App",
   components: {
     BottomMenu,
+  },
+  data() {
+    return {}
   },
   computed: {
     bookmarks: () => {
