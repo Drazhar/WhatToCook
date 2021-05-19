@@ -1,15 +1,5 @@
 <template>
   <div id="app">
-    <!-- <div id="addRecipe">
-      <input
-        type="text"
-        name="Name"
-        id="inputRecipeName"
-        placeholder="Add new recipe..."
-      />
-      <button @click="addRecipe">Add recipe</button>
-    </div> -->
-
     <div id="cardContainer">
       <transition-group v-bind:name="transitionName">
         <div
@@ -32,7 +22,7 @@
       <button @click="declineRecipe">No</button>
     </div>
     <div class="bottomMenu">
-      <button class="menuBtn">
+      <button @click="toggleShowAddRecipe" class="menuBtn">
         <i class="far fa-plus-square"></i>
       </button>
       <button @click="toggleShowBookmarks" class="menuBtn" id="btnCart">
@@ -44,6 +34,7 @@
       </button>
     </div>
     <Bookmarks v-if="showBookmarks" />
+    <AddRecipe v-if="showAddRecipe" />
   </div>
 </template>
 
@@ -51,6 +42,7 @@
 import Vue from "vue"
 import RecipeCard from "./components/RecipeCard.vue"
 import Bookmarks from "./components/Bookmarks.vue"
+import AddRecipe from "./components/AddRecipe.vue"
 import store from "@/store"
 import BinarySearchTree from "@/lib/binarySearchTree"
 
@@ -59,6 +51,7 @@ export default Vue.extend({
   components: {
     RecipeCard,
     Bookmarks,
+    AddRecipe,
   },
   data() {
     const recipeDeck = []
@@ -80,18 +73,11 @@ export default Vue.extend({
     showBookmarks: () => {
       return store.state.showBookmarks
     },
+    showAddRecipe: () => {
+      return store.state.showAddRecipe
+    },
   },
   methods: {
-    addRecipe() {
-      const recipeNameInput = document.getElementById("inputRecipeName")
-      const recipeName = recipeNameInput.value
-      if (!recipeName) {
-        alert("No name entered")
-        return
-      }
-      store.dispatch("addRecipe", { name: recipeName })
-      recipeNameInput.value = ""
-    },
     shuffleDeck() {
       const bst = new BinarySearchTree()
       const recipes = store.state.recipes
@@ -129,6 +115,9 @@ export default Vue.extend({
     },
     toggleShowBookmarks() {
       store.commit("toggleShowBookmarks")
+    },
+    toggleShowAddRecipe() {
+      store.commit("toggleShowAddRecipe")
     },
   },
   created() {

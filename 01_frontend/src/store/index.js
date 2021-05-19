@@ -10,13 +10,17 @@ export default new Vuex.Store({
     recipes: {},
     bookmarks: {},
     showBookmarks: false,
+    showAddRecipe: false,
   },
   mutations: {
     getRecipes(state, data) {
       state.recipes = data
     },
     addRecipe(state, recipe) {
-      state.recipes = { ...state.recipes, [recipe[0]]: recipe[1] }
+      state.recipes = {
+        ...state.recipes,
+        [recipe._id]: { name: recipe.name, box: recipe.box },
+      }
     },
     modifyBox(state, recipe) {
       state.recipes[recipe[0]].box = recipe[1].box
@@ -29,6 +33,9 @@ export default new Vuex.Store({
     },
     toggleShowBookmarks(state) {
       state.showBookmarks = !state.showBookmarks
+    },
+    toggleShowAddRecipe(state) {
+      state.showAddRecipe = !state.showAddRecipe
     },
   },
   actions: {
