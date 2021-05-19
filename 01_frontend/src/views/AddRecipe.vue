@@ -6,7 +6,7 @@
           rows="2"
           name="Name"
           id="inputRecipeName"
-          placeholder="Recipe name"
+          placeholder="Enter recipe name"
         />
         <hr />
       </div>
@@ -68,6 +68,7 @@ export default Vue.extend({
   padding: 0 0 15px 0;
   resize: none;
   border-style: none;
+  background-color: var(--white);
 }
 
 hr {

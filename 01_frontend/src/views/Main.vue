@@ -136,7 +136,7 @@ export default Vue.extend({
 }
 
 .altCards-leave-active {
-  transform: translate(0, 90vh) scale(0.05);
+  transform: translate(0, 80vh) scale(0.05);
   opacity: 0.5;
 }
 

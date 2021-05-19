@@ -4,7 +4,8 @@
     --blue: #118ab2;
     --green: #06d6a0;
     --grey: #073b4c;
-    --white: #fff;
+    --white: rgb(247,247,247);
+    --white-trans: rgba(247,247,247,0.6);
     --black-font: #333;
 }
 

@@ -46,6 +46,7 @@ export default Vue.extend({
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: flex-start;
+  margin: 6px;
 }
 
 .entry {

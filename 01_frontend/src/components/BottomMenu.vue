@@ -4,7 +4,7 @@
       <i class="far fa-plus-square"></i>
     </router-link>
     <router-link to="/bookmarks" class="menuBtn" id="btnCart"
-      ><p v-if="bookmarksLength > 0">{{ bookmarksLength }}</p>
+      ><BoilingCounter v-if="bookmarksLength > 0" :count="bookmarksLength" />
       <i class="fas fa-shopping-cart"></i
     ></router-link>
     <router-link to="/" class="menuBtn">
@@ -16,9 +16,13 @@
 <script>
 import Vue from "vue"
 import store from "@/store"
+import BoilingCounter from "@/components/BoilingCounter.vue"
 
 export default Vue.extend({
   name: "BottomMenu",
+  components: {
+    BoilingCounter,
+  },
   computed: {
     bookmarks: () => {
       return store.state.bookmarks
@@ -40,28 +44,17 @@ export default Vue.extend({
 
 .menuBtn {
   font-size: 26px;
-  color: var(--white);
+  color: var(--white-trans);
   border: none;
   background-color: rgba(0, 0, 0, 0);
   cursor: pointer;
 }
 
-#btnCart {
-  position: relative;
+.router-link-exact-active {
+  color: var(--white);
 }
 
-#btnCart p {
-  position: absolute;
-  top: -55%;
-  right: -5%;
-  font-size: 12px;
-  line-height: 19px;
-  text-align: center;
-  vertical-align: center;
-  color: var(--white);
-  border-radius: 50%;
-  background-color: var(--red);
-  height: 19px;
-  width: 19px;
+#btnCart {
+  position: relative;
 }
 </style>
