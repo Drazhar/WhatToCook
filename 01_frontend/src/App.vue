@@ -9,16 +9,6 @@
       />
       <button @click="addRecipe">Add recipe</button>
     </div> -->
-    <button class="menuBtn" id="refresh" @click="shuffleDeck">
-      <i class="fas fa-sync-alt"></i>
-    </button>
-    <button class="menuBtn" id="btnAddRecipe">
-      <i class="far fa-plus-square"></i>
-    </button>
-    <button @click="toggleShowBookmarks" class="menuBtn" id="btnCart">
-      <p v-if="bookmarksLength > 0">{{ bookmarksLength }}</p>
-      <i class="fas fa-shopping-cart"></i>
-    </button>
 
     <div id="cardContainer">
       <transition-group v-bind:name="transitionName">
@@ -40,6 +30,18 @@
         Yes
       </button>
       <button @click="declineRecipe">No</button>
+    </div>
+    <div class="bottomMenu">
+      <button class="menuBtn">
+        <i class="far fa-plus-square"></i>
+      </button>
+      <button @click="toggleShowBookmarks" class="menuBtn" id="btnCart">
+        <p v-if="bookmarksLength > 0">{{ bookmarksLength }}</p>
+        <i class="fas fa-shopping-cart"></i>
+      </button>
+      <button class="menuBtn" @click="shuffleDeck">
+        <i class="fas fa-sync-alt"></i>
+      </button>
     </div>
     <Bookmarks v-if="showBookmarks" />
   </div>
@@ -143,10 +145,11 @@ export default Vue.extend({
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #333;
-  margin-top: 60px;
+  color: var(--black-font);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
 }
 
 #cardContainer {
@@ -161,41 +164,36 @@ export default Vue.extend({
   z-index: 1;
 }
 
+.bottomMenu {
+  background-color: var(--grey);
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
 .menuBtn {
-  position: absolute;
-  font-size: 30px;
+  font-size: 26px;
+  color: var(--white);
   border: none;
   background-color: rgba(0, 0, 0, 0);
   cursor: pointer;
 }
 
-#refresh {
-  bottom: 20px;
-  right: 20px;
-}
-
-#btnAddRecipe {
-  bottom: 20px;
-  left: 20px;
-}
-
 #btnCart {
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
 }
 
 #btnCart p {
   position: absolute;
-  top: -50%;
-  right: 0;
+  top: -55%;
+  right: -5%;
   font-size: 12px;
   line-height: 19px;
   text-align: center;
   vertical-align: center;
-  color: whitesmoke;
+  color: var(--white);
   border-radius: 50%;
-  background-color: #ef476f;
+  background-color: var(--red);
   height: 19px;
   width: 19px;
 }
@@ -204,9 +202,9 @@ export default Vue.extend({
   margin: 10px 40px;
   width: 70px;
   height: 43px;
-  color: whitesmoke;
+  color: var(--white);
   font-weight: 700;
-  background-color: #ef476f;
+  background-color: var(--red);
   border: none;
   border-radius: 5px;
   font-size: 20px;
@@ -218,13 +216,13 @@ export default Vue.extend({
   transition: all 0.2s;
 }
 
-.cards-leave-to {
+.cards-leave-active {
   transform: translateX(-100%);
 }
 
-.altCards-leave-to {
-  transform: translate(0, 80vh) scale(0.05);
-  opacity: 0.4;
+.altCards-leave-active {
+  transform: translate(0, 90vh) scale(0.05);
+  opacity: 0.5;
 }
 
 .cards-enter,

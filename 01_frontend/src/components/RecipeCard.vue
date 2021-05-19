@@ -27,8 +27,8 @@ export default Vue.extend({
       return 1
     },
     translate: function () {
-      if (this.count <= 1) return 40
-      return (120 / this.countSubOne) * this.index - 80
+      if (this.count <= 1) return 120
+      return (120 / this.countSubOne) * this.index
     },
     scale: function () {
       if (this.count <= 1) return 1
@@ -56,13 +56,13 @@ export default Vue.extend({
   font-size: 18px;
   bottom: 15px;
   right: 10px;
-  background-color: whitesmoke;
+  background-color: var(--white);
   border: none;
   cursor: pointer;
 }
 
 .card {
-  background-color: whitesmoke;
+  background-color: var(--white);
   border-radius: 15px;
   width: 230px;
   height: 372px;
@@ -88,7 +88,7 @@ hr {
   border: none;
   height: 4px;
   border-radius: 2px;
-  background-color: #06d6a0;
+  background-color: var(--green);
   margin: 0px;
 }
 

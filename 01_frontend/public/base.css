@@ -1,5 +1,17 @@
+:root {
+    --red: #ef476f;
+    --yellow: #ffd166;
+    --blue: #118ab2;
+    --green: #06d6a0;
+    --green-8: rgba(6, 215, 160, 0.8);
+    --grey: #073b4c;
+    --white: #fff;
+    --black-font: #333;
+}
+
 body {
-    background-color: #06d6a0;
+    margin: 0;
+    background-color: var(--green);
     background-image:  radial-gradient(#04ab80 0.75px, transparent 0.75px), radial-gradient(#04ab80 0.75px, #06d6a0 0.75px);
     background-size: 30px 30px;
     background-position: 0 0,15px 15px;

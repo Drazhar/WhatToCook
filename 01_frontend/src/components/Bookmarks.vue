@@ -42,7 +42,7 @@ export default Vue.extend({
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(6, 215, 160, 0.8);
+  background-color: var(--green-8);
   z-index: 2;
   padding: 6px;
 }
@@ -58,8 +58,7 @@ export default Vue.extend({
   font-size: 1.1em;
   padding: 6px 3px;
   border-radius: 3px;
-  background-color: whitesmoke;
-  transition: all 0.1s;
+  background-color: var(--white);
   margin: 2px;
   min-width: 100px;
   width: 22.6vw;
@@ -85,9 +84,5 @@ export default Vue.extend({
   font-size: 18px;
   cursor: pointer;
   z-index: 3;
-}
-
-.bookmarkTrans-enter {
-  opacity: 0;
 }
 </style>
