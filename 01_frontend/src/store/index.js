@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     recipes: {},
     bookmarks: {},
+    showBookmarks: false,
   },
   mutations: {
     getRecipes(state, data) {
@@ -22,6 +23,12 @@ export default new Vuex.Store({
     },
     addRecipeBookmarks(state, recipe) {
       state.bookmarks = { ...state.bookmarks, [recipe[0]]: recipe[1] }
+    },
+    removeRecipeBookmarks(state, recipeId) {
+      Vue.delete(state.bookmarks, recipeId)
+    },
+    toggleShowBookmarks(state) {
+      state.showBookmarks = !state.showBookmarks
     },
   },
   actions: {

@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <Bookmarks />
     <!-- <div id="addRecipe">
       <input
         type="text"
@@ -16,7 +15,7 @@
     <button class="menuBtn" id="btnAddRecipe">
       <i class="far fa-plus-square"></i>
     </button>
-    <button class="menuBtn" id="btnCart">
+    <button @click="toggleShowBookmarks" class="menuBtn" id="btnCart">
       <p v-if="bookmarksLength > 0">{{ bookmarksLength }}</p>
       <i class="fas fa-shopping-cart"></i>
     </button>
@@ -42,6 +41,7 @@
       </button>
       <button @click="declineRecipe">No</button>
     </div>
+    <Bookmarks v-if="showBookmarks" />
   </div>
 </template>
 
@@ -69,11 +69,14 @@ export default Vue.extend({
     cappedRecipeDeck: function () {
       return this.arrayHead(this.recipeDeck, 50)
     },
-    bookmarks: function () {
+    bookmarks: () => {
       return store.state.bookmarks
     },
     bookmarksLength: function () {
       return Object.keys(this.bookmarks).length
+    },
+    showBookmarks: () => {
+      return store.state.showBookmarks
     },
   },
   methods: {
@@ -122,6 +125,9 @@ export default Vue.extend({
       store.dispatch("decreaseBox", recipe)
       store.commit("addRecipeBookmarks", recipe)
     },
+    toggleShowBookmarks() {
+      store.commit("toggleShowBookmarks")
+    },
   },
   created() {
     store.dispatch("getRecipes").then(() => {
@@ -152,7 +158,7 @@ export default Vue.extend({
   display: flex;
   flex-direction: row;
   justify-content: center;
-  z-index: 10;
+  z-index: 1;
 }
 
 .menuBtn {
