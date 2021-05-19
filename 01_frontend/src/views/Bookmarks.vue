@@ -1,5 +1,5 @@
 <template>
-  <div @click="toggleShowBookmarks" id="bookmarks">
+  <div id="bookmarks">
     <transition-group id="menu" name="bookmarkTrans"
       ><div v-for="id in Object.keys(bookmarks)" :key="id" class="entry">
         <button @click="removeRecipe($event, id)">
@@ -28,16 +28,13 @@ export default Vue.extend({
     removeRecipe: function (event, id) {
       store.commit("removeRecipeBookmarks", id)
     },
-    toggleShowBookmarks(event) {
-      if (event.target.id === "bookmarks") store.commit("toggleShowBookmarks")
-    },
   },
 })
 </script>
 
 <style scoped>
 #bookmarks {
-  position: absolute;
+  position: relative;
   top: 0;
   right: 0;
   bottom: 0;

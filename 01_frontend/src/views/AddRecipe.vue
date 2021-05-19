@@ -1,5 +1,5 @@
 <template>
-  <div @click="toggleShowAddRecipe" id="addRecipe">
+  <div id="addRecipe">
     <form>
       <div class="card">
         <textarea
@@ -24,11 +24,6 @@ export default Vue.extend({
     return {}
   },
   methods: {
-    toggleShowAddRecipe(event) {
-      if (event) {
-        if (event.target.id === "addRecipe") store.commit("toggleShowAddRecipe")
-      } else store.commit("toggleShowAddRecipe")
-    },
     addRecipe(event) {
       event.preventDefault()
       const recipeName = document.getElementById("inputRecipeName").value
@@ -41,12 +36,11 @@ export default Vue.extend({
 
 <style scoped>
 #addRecipe {
-  position: absolute;
+  position: relative;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: var(--green-8);
   z-index: 2;
   padding: 6px;
 }
