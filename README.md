@@ -16,6 +16,31 @@ npm start
 - vue serve to serve the frontend in a live server
 
 
-## Run tests
-Jest is used for the testing framework. By default all tests are run in --watchAll mode. 
-It's possible to start the tests concurrently for the back- and frontend by calling ``npm test`` in the root directory or only for either one by calling ``npm test`` in the corrisponding directory.
+## Deployment
+```
+npm run deploy
+```
+First run the deploy command compile the backend code and build the frontend. The result will be saved in the directory "00_deploy".
+Copy the resultung files to the server (rPi in my case) and connect via SSH.
+At the server navigate to the directory and run:
+```
+docker-compose up --build -d
+```
+to build the docker image and spin up the container in the background.
+NOTE: A docker-compose.yml is required but omitted in the repo because of private environment variables. It should look similar to this example:
+```
+version: '3.8'
+
+services:
+  node:
+    build:
+      context: .
+      dockerfile: Dockerfile_node
+    container_name: whattocook
+    ports:
+      - '8080:8080'
+    restart: always
+    environment:
+      - PORT=8080
+      - DB_URI=*****
+```
