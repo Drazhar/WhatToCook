@@ -1,7 +1,11 @@
 import express = require("express")
+const path = require("path")
 
 const app = express()
 const port = process.env.PORT || 3000
+
+// Static routes
+app.use(express.static(path.resolve(__dirname, "static")))
 
 app.use((req, res, next) => {
   const allowedOrigins = ["http://localhost:8080"]
@@ -21,6 +25,10 @@ app.use(express.json())
 
 // Routes
 app.use("/api", require("./routes/api"))
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "static", "index.html"))
+})
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`)

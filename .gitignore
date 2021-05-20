@@ -1,3 +1,5 @@
 node_modules
 01_frontend_V3
 package-lock.json
+00_deploy
+docker-compose.yml

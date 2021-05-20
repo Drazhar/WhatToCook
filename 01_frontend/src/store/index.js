@@ -5,6 +5,15 @@ import { nanoid } from "nanoid"
 
 Vue.use(Vuex)
 
+let backendAddress
+if (process.env.NODE_ENV === "development") {
+  backendAddress = "http://localhost:3000/api/"
+} else {
+  let url = window.location.href
+  let arr = url.split("/")
+  backendAddress = arr[0] + "//" + arr[2] + "/api/"
+}
+
 export default new Vuex.Store({
   state: {
     recipes: {},
@@ -32,25 +41,25 @@ export default new Vuex.Store({
   },
   actions: {
     async getRecipes({ commit }) {
-      const res = await axios.get("http://localhost:3000/api/getRecipes")
+      const res = await axios.get(backendAddress + "getRecipes")
       normalizeBoxes(res.data)
       commit("getRecipes", res.data)
     },
     async addRecipe({ commit }, recipe) {
       const recipeObject = { name: recipe.name, _id: nanoid(10), box: 0 }
       commit("addRecipe", recipeObject)
-      axios.post("http://localhost:3000/api/addRecipe", recipeObject)
+      axios.post(backendAddress + "addRecipe", recipeObject)
     },
     async increaseBox({ commit }, recipe) {
       recipe[1].box++
       commit("modifyBox", recipe)
-      axios.post("http://localhost:3000/api/modifyBox", recipe)
+      axios.post(backendAddress + "modifyBox", recipe)
     },
     async decreaseBox({ commit }, recipe) {
       if (recipe[1].box > 0) {
         recipe[1].box--
         commit("modifyBox", recipe)
-        axios.post("http://localhost:3000/api/modifyBox", recipe)
+        axios.post(backendAddress + "modifyBox", recipe)
       }
     },
   },
@@ -62,6 +71,6 @@ function normalizeBoxes(data) {
   for (const prop in data) if (data[prop].box < minBox) minBox = data[prop].box
   if (minBox > 0) {
     for (const prop in data) data[prop].box -= minBox
-    axios.post("http://localhost:3000/api/updateRecipes", data)
+    axios.post(backendAddress + "updateRecipes", data)
   }
 }

@@ -9,7 +9,7 @@ export default Vue.extend({
   name: "BoilingCounter",
   data() {
     return {
-      left: Math.random() * 12 - 7,
+      left: Math.random() * 10 - 7,
       size: 6 + Math.random() * 4,
       speed: 3 + Math.random() * 6,
       delay: Math.random() * 3,

@@ -26,8 +26,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "mongodb": "^3.6.6",
-    "nanoid": "^3.1.22"
+    "mongodb": "^3.6.6"
   },
   "prettier": {
     "endOfLine": "auto",
