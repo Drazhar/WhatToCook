@@ -64,6 +64,7 @@ export default Vue.extend({
 }
 
 .card {
+  will-change: transform, filter;
   background-color: var(--white);
   border-radius: 15px;
   width: 230px;

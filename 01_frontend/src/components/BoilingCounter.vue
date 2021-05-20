@@ -21,7 +21,7 @@
     <div id="relative">
       {{ count }}
       <span class="bubbles">
-        <Bubble v-for="n in count * 6 > 84 ? 84 : count * 6" :key="n" />
+        <Bubble v-for="n in count * 6 > 30 ? 30 : count * 6" :key="n" />
       </span>
     </div>
   </div>

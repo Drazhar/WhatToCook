@@ -45,7 +45,7 @@ export default Vue.extend({
       return store.state.bookmarks
     },
     cappedRecipeDeck: function () {
-      return this.arrayHead(this.recipeDeck, 50)
+      return this.arrayHead(this.recipeDeck, 6)
     },
   },
   methods: {
