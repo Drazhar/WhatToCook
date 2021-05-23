@@ -8,10 +8,14 @@ const port = process.env.PORT || 3000
 app.use(express.static(path.resolve(__dirname, "static")))
 
 app.use((req, res, next) => {
-  const allowedOrigins = ["http://localhost:8080"]
-  const origin = req.headers.origin
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin)
+  if (process.env.NODE_ENV === "development") {
+    res.setHeader("Access-Control-Allow-Origin", "*")
+  } else {
+    const allowedOrigins = ["http://localhost:8080"]
+    const origin = req.headers.origin
+    if (allowedOrigins.includes(origin)) {
+      res.setHeader("Access-Control-Allow-Origin", origin)
+    }
   }
   res.header("Access-Control-Allow-Credentials", "true")
   res.header(

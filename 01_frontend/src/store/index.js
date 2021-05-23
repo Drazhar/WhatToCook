@@ -5,14 +5,8 @@ import { nanoid } from "nanoid"
 
 Vue.use(Vuex)
 
-let backendAddress
-if (process.env.NODE_ENV === "development") {
-  backendAddress = "http://localhost:3000/api/"
-} else {
-  let url = window.location.href
-  let arr = url.split("/")
-  backendAddress = arr[0] + "//" + arr[2] + "/api/"
-}
+const backendAddress = getBackendAddress()
+console.log(backendAddress)
 
 export default new Vuex.Store({
   state: {
@@ -73,4 +67,17 @@ function normalizeBoxes(data) {
     for (const prop in data) data[prop].box -= minBox
     axios.post(backendAddress + "updateRecipes", data)
   }
+}
+
+function getBackendAddress() {
+  const url = window.location.href
+  const arr = url.split("/")
+  let backendAddress
+  if (process.env.NODE_ENV === "development") {
+    const domain = arr[2].split(":")
+    backendAddress = arr[0] + "//" + domain[0] + ":3000"
+  } else {
+    backendAddress = arr[0] + "//" + arr[2]
+  }
+  return backendAddress + "/api/"
 }
