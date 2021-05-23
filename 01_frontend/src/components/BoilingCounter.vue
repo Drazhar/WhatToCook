@@ -1,27 +1,25 @@
 <template>
   <div id="counter">
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-      <defs>
-        <filter id="gooey">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="2.1" result="blur" />
-          <feColorMatrix
-            in="blur"
-            type="matrix"
-            values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 20 -9"
-            result="highContrastGraphic"
-          />
-          <feComposite
-            in="SourceGraphic"
-            in2="highContractGraphic"
-            operator="atop"
-          />
-        </filter>
-      </defs>
+    <svg xmlns="http://www.w3.org/2000/svg">
+      <filter id="gooey">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="2.1" result="blur" />
+        <feColorMatrix
+          in="blur"
+          type="matrix"
+          values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 20 -9"
+          result="highContrastGraphic"
+        />
+        <feComposite
+          in="SourceGraphic"
+          in2="highContractGraphic"
+          operator="atop"
+        />
+      </filter>
     </svg>
     <div id="relative">
       {{ count }}
       <span class="bubbles">
-        <Bubble v-for="n in count * 6 > 30 ? 30 : count * 6" :key="n" />
+        <Bubble v-for="n in count * 6 > 50 ? 50 : count * 6" :key="n" />
       </span>
     </div>
   </div>
@@ -44,7 +42,11 @@ export default Vue.extend({
 
 <style>
 svg {
-  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
 }
 
 #counter {
