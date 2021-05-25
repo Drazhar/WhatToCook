@@ -1,6 +1,9 @@
 <template>
   <div>
     <div class="card" :style="x">
+      <button id="delete" @click="deleteRecipe()">
+        <i class="fas fa-trash"></i>
+      </button>
       <button id="edit"><i class="fas fa-pen"></i></button>
       <h1 class="recipeName">
         {{ recipe[1].name }}
@@ -13,12 +16,16 @@
         </tr>
       </table>
     </div>
+    <confirm-dialog ref="confirmDialog"></confirm-dialog>
   </div>
 </template>
 
 <script>
+import ConfirmDialog from "@/components/ConfirmDialog.vue"
 import Vue from "vue"
+import store from "@/store"
 export default Vue.extend({
+  components: { ConfirmDialog },
   name: "HelloWorld",
   data() {
     return {}
@@ -49,18 +56,37 @@ export default Vue.extend({
     index: Number,
     count: Number,
   },
+  methods: {
+    async deleteRecipe() {
+      const ok = await this.$refs.confirmDialog.show({
+        title: "Delete Recipe",
+        message: "Are you sure you want to delete this recipe forever?",
+        okButton: "Delete Forever",
+      })
+      if (ok) {
+        this.$emit("deleteRecipe")
+        store.dispatch("deleteRecipe", this.recipe[0])
+      }
+    },
+  },
 })
 </script>
 
 <style scoped>
-#edit {
+button {
   position: absolute;
   font-size: 18px;
-  bottom: 15px;
-  right: 10px;
   background-color: var(--white);
   border: none;
   cursor: pointer;
+}
+#edit {
+  bottom: 15px;
+  right: 10px;
+}
+#delete {
+  bottom: 60px;
+  right: 10px;
 }
 
 .card {

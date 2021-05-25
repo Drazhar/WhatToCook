@@ -6,7 +6,6 @@ import { nanoid } from "nanoid"
 Vue.use(Vuex)
 
 const backendAddress = getBackendAddress()
-console.log(backendAddress)
 
 export default new Vuex.Store({
   state: {
@@ -22,6 +21,9 @@ export default new Vuex.Store({
         ...state.recipes,
         [recipe._id]: { name: recipe.name, box: recipe.box },
       }
+    },
+    deleteRecipe(state, recipeId) {
+      Vue.delete(state.recipes, recipeId)
     },
     modifyBox(state, recipe) {
       state.recipes[recipe[0]].box = recipe[1].box
@@ -43,6 +45,10 @@ export default new Vuex.Store({
       const recipeObject = { name: recipe.name, _id: nanoid(10), box: 0 }
       commit("addRecipe", recipeObject)
       axios.post(backendAddress + "addRecipe", recipeObject)
+    },
+    async deleteRecipe({ commit }, recipeId) {
+      commit("deleteRecipe", recipeId)
+      axios.post(backendAddress + "deleteRecipe", { recipeId })
     },
     async increaseBox({ commit }, recipe) {
       recipe[1].box++

@@ -11,6 +11,7 @@
             :recipe="recipe"
             :index="index"
             :count="cappedRecipeDeck.length"
+            @deleteRecipe="deleteRecipe"
           />
         </div>
       </transition-group>
@@ -70,6 +71,9 @@ export default Vue.extend({
     arrayHead(arr, count) {
       if (arr.length > count) return arr.slice(Math.max(arr.length - count, 1))
       return arr
+    },
+    deleteRecipe() {
+      this.recipeDeck.pop()
     },
     declineRecipe() {
       this.transitionName = "cards"

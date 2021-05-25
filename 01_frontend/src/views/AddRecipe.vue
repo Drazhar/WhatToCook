@@ -28,7 +28,6 @@ export default Vue.extend({
       event.preventDefault()
       const recipeName = document.getElementById("inputRecipeName").value
       store.dispatch("addRecipe", { name: recipeName })
-      this.toggleShowAddRecipe()
     },
   },
 })

@@ -15,6 +15,11 @@ router.post("/addRecipe", (req, res) => {
   res.sendStatus(200)
 })
 
+router.post("/deleteRecipe", (req, res) => {
+  mongo.deleteRecipe(req.body.recipeId)
+  res.sendStatus(200)
+})
+
 router.post("/modifyBox", (req, res) => {
   mongo.updateValue(req.body[0], { box: req.body[1].box })
   res.sendStatus(200)
