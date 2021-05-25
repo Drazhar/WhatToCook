@@ -33,6 +33,11 @@ export class MongoDB {
     return recipesArrayToObject(result)
   }
 
+  async deleteRecipe(recipeId) {
+    const result = await this.recipes.deleteOne({ _id: recipeId })
+    console.log("Deleted: " + result.deletedCount)
+  }
+
   async updateValue(_id, payload) {
     this.recipes.updateOne({ _id }, { $set: payload })
   }
