@@ -10,3 +10,12 @@ new Vue({
   store,
   render: (h) => h(App),
 }).$mount("#app")
+
+calculateVH()
+window.addEventListener("resize", calculateVH)
+
+function calculateVH() {
+  console.log("recalc")
+  const vh = window.innerHeight * 0.01
+  document.documentElement.style.setProperty("--vh", `${vh}px`)
+}
