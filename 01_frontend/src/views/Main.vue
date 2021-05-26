@@ -86,7 +86,7 @@ export default Vue.extend({
       const recipe = this.recipeDeck.pop()
       if (this.recipeDeck.length === 0) this.shuffleDeck()
       store.dispatch("decreaseBox", recipe)
-      store.commit("addRecipeBookmarks", recipe[0])
+      store.dispatch("addRecipeBookmarks", recipe[0])
     },
   },
   created() {

@@ -67,6 +67,12 @@ export default new Vuex.Store({
         axios.post(backendAddress + "modifyBox", recipe)
       }
     },
+    async addRecipeBookmarks({ commit }, recipeId) {
+      commit("addRecipeBookmarks", recipeId)
+    },
+    async removeRecipeBookmarks({ commit }, recipeId) {
+      commit("removeRecipeBookmarks", recipeId)
+    },
   },
   modules: {},
 })

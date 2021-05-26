@@ -28,8 +28,8 @@ export default Vue.extend({
     },
   },
   methods: {
-    removeRecipe: function (event, id) {
-      store.commit("removeRecipeBookmarks", id)
+    removeRecipe: function (event, recipeId) {
+      store.dispatch("removeRecipeBookmarks", recipeId)
     },
   },
 })
