@@ -4,6 +4,7 @@ export class MongoDB {
   dbName: string
   client: any
   recipes: any
+  bookmarks: any
 
   constructor(dbName: string) {
     this.dbName = dbName
@@ -16,6 +17,7 @@ export class MongoDB {
       .then(() => {
         const database = this.client.db(this.dbName)
         this.recipes = database.collection("recipes")
+        this.bookmarks = database.collection("bookmarks")
       })
       .catch((err) => {
         console.log("Couldn't connect to database...")
@@ -38,8 +40,30 @@ export class MongoDB {
     console.log("Deleted: " + result.deletedCount)
   }
 
-  async updateValue(_id, payload) {
+  updateValue(_id, payload) {
     this.recipes.updateOne({ _id }, { $set: payload })
+  }
+
+  addBookmark(_id) {
+    this.bookmarks
+      .insertOne(_id)
+      .catch((error) => console.log("Bookmark already exists"))
+  }
+
+  removeBookmark(_id) {
+    this.bookmarks
+      .deleteOne(_id)
+      .catch((error) => console.log("Bookmark not found for deletion"))
+  }
+
+  async getBookmarks() {
+    const cursor = this.bookmarks.find()
+    const result = await cursor.toArray()
+    let resultCleaned = []
+    result.forEach((element) => {
+      resultCleaned.push(element._id)
+    })
+    return resultCleaned
   }
 }
 

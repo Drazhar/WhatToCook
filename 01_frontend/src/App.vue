@@ -26,6 +26,10 @@ export default Vue.extend({
       return Object.keys(this.bookmarks).length
     },
   },
+  created() {
+    store.dispatch("getBookmarks")
+    store.dispatch("getRecipes")
+  },
 })
 </script>
 

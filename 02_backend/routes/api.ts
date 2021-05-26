@@ -32,4 +32,20 @@ router.post("/updateRecipes", (req, res) => {
   res.sendStatus(200)
 })
 
+router.post("/addBookmark", (req, res) => {
+  mongo.addBookmark(req.body)
+  res.sendStatus(200)
+})
+
+router.post("/removeBookmark", (req, res) => {
+  mongo.removeBookmark(req.body)
+  res.sendStatus(200)
+})
+
+router.get("/getBookmarks", (req, res) => {
+  mongo.getBookmarks().then((value) => {
+    res.status(200).send(value)
+  })
+})
+
 module.exports = router
