@@ -39,6 +39,9 @@ export default new Vuex.Store({
         state.bookmarks.splice(index, 1)
       }
     },
+    getBookmarks(state, data) {
+      state.bookmarks = data
+    },
   },
   actions: {
     async getRecipes({ commit }) {
@@ -69,9 +72,15 @@ export default new Vuex.Store({
     },
     async addRecipeBookmarks({ commit }, recipeId) {
       commit("addRecipeBookmarks", recipeId)
+      axios.post(backendAddress + "addBookmark", { _id: recipeId })
     },
     async removeRecipeBookmarks({ commit }, recipeId) {
       commit("removeRecipeBookmarks", recipeId)
+      axios.post(backendAddress + "removeBookmark", { _id: recipeId })
+    },
+    async getBookmarks({ commit }) {
+      const res = await axios.get(backendAddress + "getBookmarks")
+      commit("getBookmarks", res.data)
     },
   },
   modules: {},
