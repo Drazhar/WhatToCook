@@ -8,7 +8,7 @@
       <i class="fas fa-shopping-cart"></i
     ></router-link>
     <router-link to="/" class="menuBtn">
-      <i class="fas fa-sync-alt"></i>
+      <i class="fas fa-layer-group"></i>
     </router-link>
   </div>
 </template>
