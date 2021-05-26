@@ -11,6 +11,7 @@
             :recipe="recipe"
             :index="index"
             :count="cappedRecipeDeck.length"
+            @deleteRecipe="deleteRecipe"
           />
         </div>
       </transition-group>
@@ -22,6 +23,10 @@
       </button>
       <button @click="declineRecipe">No</button>
     </div>
+
+    <button id="shuffle" @click="shuffleDeck">
+      <i class="fas fa-sync-alt"></i>
+    </button>
   </div>
 </template>
 
@@ -50,10 +55,10 @@ export default Vue.extend({
   },
   methods: {
     shuffleDeck() {
-      const bst = new BinarySearchTree()
       const recipes = store.state.recipes
+      const bst = new BinarySearchTree()
       for (const id in recipes) {
-        if (!(id in this.bookmarks)) {
+        if (!this.bookmarks.includes(id)) {
           const order = Math.random() * Math.pow(2, recipes[id].box)
           bst.insert(order, [id, recipes[id]])
         }
@@ -71,6 +76,9 @@ export default Vue.extend({
       if (arr.length > count) return arr.slice(Math.max(arr.length - count, 1))
       return arr
     },
+    deleteRecipe() {
+      this.recipeDeck.pop()
+    },
     declineRecipe() {
       this.transitionName = "cards"
       const recipe = this.recipeDeck.pop()
@@ -82,19 +90,26 @@ export default Vue.extend({
       const recipe = this.recipeDeck.pop()
       if (this.recipeDeck.length === 0) this.shuffleDeck()
       store.dispatch("decreaseBox", recipe)
-      store.commit("addRecipeBookmarks", recipe)
+      store.dispatch("addRecipeBookmarks", recipe[0])
     },
   },
   created() {
-    store.dispatch("getRecipes").then(() => {
-      this.shuffleDeck()
-    })
+    this.shuffleDeck()
+    store.watch(
+      (state) => {
+        return state.recipes && state.bookmarks
+      },
+      () => {
+        this.shuffleDeck()
+      }
+    )
   },
 })
 </script>
 
 <style scoped>
 #main {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -124,6 +139,17 @@ export default Vue.extend({
   border-radius: 5px;
   font-size: 20px;
   box-shadow: 1px 4px 8px 1px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+#shuffle {
+  position: absolute;
+  right: 5px;
+  bottom: 10px;
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  color: var(--grey);
+  font-size: 28px;
   cursor: pointer;
 }
 

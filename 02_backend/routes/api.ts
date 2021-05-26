@@ -15,6 +15,11 @@ router.post("/addRecipe", (req, res) => {
   res.sendStatus(200)
 })
 
+router.post("/deleteRecipe", (req, res) => {
+  mongo.deleteRecipe(req.body.recipeId)
+  res.sendStatus(200)
+})
+
 router.post("/modifyBox", (req, res) => {
   mongo.updateValue(req.body[0], { box: req.body[1].box })
   res.sendStatus(200)
@@ -25,6 +30,22 @@ router.post("/updateRecipes", (req, res) => {
     mongo.updateValue(id, { box: req.body[id].box })
   }
   res.sendStatus(200)
+})
+
+router.post("/addBookmark", (req, res) => {
+  mongo.addBookmark(req.body)
+  res.sendStatus(200)
+})
+
+router.post("/removeBookmark", (req, res) => {
+  mongo.removeBookmark(req.body)
+  res.sendStatus(200)
+})
+
+router.get("/getBookmarks", (req, res) => {
+  mongo.getBookmarks().then((value) => {
+    res.status(200).send(value)
+  })
 })
 
 module.exports = router

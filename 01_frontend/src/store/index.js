@@ -6,12 +6,11 @@ import { nanoid } from "nanoid"
 Vue.use(Vuex)
 
 const backendAddress = getBackendAddress()
-console.log(backendAddress)
 
 export default new Vuex.Store({
   state: {
     recipes: {},
-    bookmarks: {},
+    bookmarks: [],
   },
   mutations: {
     getRecipes(state, data) {
@@ -23,14 +22,25 @@ export default new Vuex.Store({
         [recipe._id]: { name: recipe.name, box: recipe.box },
       }
     },
+    deleteRecipe(state, recipeId) {
+      Vue.delete(state.recipes, recipeId)
+    },
     modifyBox(state, recipe) {
       state.recipes[recipe[0]].box = recipe[1].box
     },
-    addRecipeBookmarks(state, recipe) {
-      state.bookmarks = { ...state.bookmarks, [recipe[0]]: recipe[1] }
+    addRecipeBookmarks(state, recipeId) {
+      if (!state.bookmarks.includes(recipeId)) {
+        state.bookmarks.push(recipeId)
+      }
     },
     removeRecipeBookmarks(state, recipeId) {
-      Vue.delete(state.bookmarks, recipeId)
+      const index = state.bookmarks.indexOf(recipeId)
+      if (index > -1) {
+        state.bookmarks.splice(index, 1)
+      }
+    },
+    getBookmarks(state, data) {
+      state.bookmarks = data
     },
   },
   actions: {
@@ -44,6 +54,10 @@ export default new Vuex.Store({
       commit("addRecipe", recipeObject)
       axios.post(backendAddress + "addRecipe", recipeObject)
     },
+    async deleteRecipe({ commit }, recipeId) {
+      commit("deleteRecipe", recipeId)
+      axios.post(backendAddress + "deleteRecipe", { recipeId })
+    },
     async increaseBox({ commit }, recipe) {
       recipe[1].box++
       commit("modifyBox", recipe)
@@ -55,6 +69,18 @@ export default new Vuex.Store({
         commit("modifyBox", recipe)
         axios.post(backendAddress + "modifyBox", recipe)
       }
+    },
+    async addRecipeBookmarks({ commit }, recipeId) {
+      commit("addRecipeBookmarks", recipeId)
+      axios.post(backendAddress + "addBookmark", { _id: recipeId })
+    },
+    async removeRecipeBookmarks({ commit }, recipeId) {
+      commit("removeRecipeBookmarks", recipeId)
+      axios.post(backendAddress + "removeBookmark", { _id: recipeId })
+    },
+    async getBookmarks({ commit }) {
+      const res = await axios.get(backendAddress + "getBookmarks")
+      commit("getBookmarks", res.data)
     },
   },
   modules: {},
