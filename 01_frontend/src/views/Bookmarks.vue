@@ -1,11 +1,11 @@
 <template>
   <div id="bookmarks">
     <transition-group id="menu" name="bookmarkTrans"
-      ><div v-for="id in Object.keys(bookmarks)" :key="id" class="entry">
+      ><div v-for="id in bookmarks" :key="id" class="entry">
         <button @click="removeRecipe($event, id)">
           <i class="fas fa-times"></i>
         </button>
-        {{ bookmarks[id].name }}
+        {{ recipes[id].name }}
       </div>
     </transition-group>
   </div>
@@ -22,6 +22,9 @@ export default Vue.extend({
   computed: {
     bookmarks: function () {
       return store.state.bookmarks
+    },
+    recipes: function () {
+      return store.state.recipes
     },
   },
   methods: {

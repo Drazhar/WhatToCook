@@ -10,7 +10,7 @@ const backendAddress = getBackendAddress()
 export default new Vuex.Store({
   state: {
     recipes: {},
-    bookmarks: {},
+    bookmarks: [],
   },
   mutations: {
     getRecipes(state, data) {
@@ -28,11 +28,16 @@ export default new Vuex.Store({
     modifyBox(state, recipe) {
       state.recipes[recipe[0]].box = recipe[1].box
     },
-    addRecipeBookmarks(state, recipe) {
-      state.bookmarks = { ...state.bookmarks, [recipe[0]]: recipe[1] }
+    addRecipeBookmarks(state, recipeId) {
+      if (!state.bookmarks.includes(recipeId)) {
+        state.bookmarks.push(recipeId)
+      }
     },
     removeRecipeBookmarks(state, recipeId) {
-      Vue.delete(state.bookmarks, recipeId)
+      const index = state.bookmarks.indexOf(recipeId)
+      if (index > -1) {
+        state.bookmarks.splice(index, 1)
+      }
     },
   },
   actions: {
