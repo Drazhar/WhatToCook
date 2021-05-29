@@ -27,8 +27,9 @@ export default Vue.extend({
     },
   },
   created() {
-    store.dispatch("getBookmarks")
-    store.dispatch("getRecipes")
+    store.dispatch("getBookmarks").then(() => {
+      store.dispatch("getRecipes")
+    })
   },
 })
 </script>

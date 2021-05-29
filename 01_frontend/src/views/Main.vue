@@ -94,10 +94,10 @@ export default Vue.extend({
     },
   },
   created() {
-    this.shuffleDeck()
+    if (this.recipeDeck.length === 0) this.shuffleDeck()
     store.watch(
       (state) => {
-        return state.recipes && state.bookmarks
+        return state.recipes
       },
       () => {
         this.shuffleDeck()
