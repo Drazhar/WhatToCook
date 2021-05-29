@@ -1,0 +1,8 @@
+{
+    "name": "WhatToCook",
+    "short_name": "WTC",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#06d6a0",
+    "description": "Helps the decision making for choosing recipes to cook."
+  }
