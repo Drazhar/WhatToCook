@@ -70,7 +70,12 @@ export class MongoDB {
 function recipesArrayToObject(recipesArray) {
   const result = {}
   recipesArray.forEach((value) => {
-    result[value._id] = { name: value.name, box: value.box }
+    if (!value.ingredients) value.ingredients = []
+    result[value._id] = {
+      name: value.name,
+      box: value.box,
+      ingredients: value.ingredients,
+    }
   })
   return result
 }

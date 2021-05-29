@@ -10,9 +10,10 @@
       </h1>
       <hr />
       <table>
-        <tr>
-          <td>500g</td>
-          <td>Tomaten</td>
+        <tr v-for="ingredient in recipe[1].ingredients" :key="ingredient[2]">
+          <td>{{ ingredient[0] }} {{ ingredient[1] }}</td>
+          <td></td>
+          <td>{{ ingredient[2] }}</td>
         </tr>
       </table>
     </div>
