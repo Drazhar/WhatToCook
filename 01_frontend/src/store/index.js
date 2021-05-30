@@ -17,9 +17,11 @@ export default new Vuex.Store({
       state.recipes = data
     },
     addRecipe(state, recipe) {
+      const id = recipe._id
+      delete recipe._id
       state.recipes = {
         ...state.recipes,
-        [recipe._id]: { name: recipe.name, box: recipe.box },
+        [id]: { ...recipe },
       }
     },
     deleteRecipe(state, recipeId) {
@@ -50,7 +52,7 @@ export default new Vuex.Store({
       commit("getRecipes", res.data)
     },
     async addRecipe({ commit }, recipe) {
-      const recipeObject = { name: recipe.name, _id: nanoid(10), box: 0 }
+      const recipeObject = { ...recipe, _id: nanoid(10), box: 0 }
       commit("addRecipe", recipeObject)
       axios.post(backendAddress + "addRecipe", recipeObject)
     },
