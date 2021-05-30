@@ -14,40 +14,42 @@
       />
       <hr />
       <div id="lowerPart">
-        <table>
-          <tr v-for="(ingredient, i) in recipe[1].ingredients" :key="i">
-            <td style="width: 20%">
-              <span v-if="!editMode">{{ ingredient[0] }}</span>
-              <input
-                v-if="editMode"
-                type="number"
-                placeholder="500"
-                v-model="ingredient[0]"
-                @change="addIngredientIfNeeded"
-              />
-            </td>
-            <td style="width: 15%">
-              <span v-if="!editMode">{{ ingredient[1] }}</span>
-              <input
-                v-if="editMode"
-                type="text"
-                placeholder="unit"
-                v-model="ingredient[1]"
-                @change="addIngredientIfNeeded"
-              />
-            </td>
-            <td style="padding-left: 5px">
-              <span v-if="!editMode">{{ ingredient[2] }}</span>
-              <input
-                v-if="editMode"
-                type="text"
-                placeholder="ingredient"
-                v-model="ingredient[2]"
-                @change="addIngredientIfNeeded"
-              />
-            </td>
-          </tr>
-        </table>
+        <div class="ingredientTable">
+          <table>
+            <tr v-for="(ingredient, i) in recipe[1].ingredients" :key="i">
+              <td style="width: 18%; text-align: right">
+                <span v-if="!editMode">{{ ingredient[0] }}</span>
+                <input
+                  v-if="editMode"
+                  type="number"
+                  placeholder="500"
+                  v-model="ingredient[0]"
+                  @change="addIngredientIfNeeded"
+                />
+              </td>
+              <td style="width: 15%; padding-left: 5px">
+                <span v-if="!editMode">{{ ingredient[1] }}</span>
+                <input
+                  v-if="editMode"
+                  type="text"
+                  placeholder="unit"
+                  v-model="ingredient[1]"
+                  @change="addIngredientIfNeeded"
+                />
+              </td>
+              <td style="padding-left: 10px">
+                <span v-if="!editMode">{{ ingredient[2] }}</span>
+                <input
+                  v-if="editMode"
+                  type="text"
+                  placeholder="ingredient"
+                  v-model="ingredient[2]"
+                  @change="addIngredientIfNeeded"
+                />
+              </td>
+            </tr>
+          </table>
+        </div>
         <div id="buttons">
           <button id="delete" @click="deleteRecipe" v-if="editMode">
             <i class="fas fa-trash"></i>
@@ -120,23 +122,28 @@ export default Vue.extend({
     },
     switchEditMode() {
       this.editMode = !this.editMode
-      this.addIngredientIfNeeded()
+      if (this.editMode) this.addIngredientIfNeeded()
+      else this.removeEmptyIngredients()
     },
     saveChanges() {
-      const ingredients = this.recipe[1].ingredients
-      const iLength = ingredients.length - 1
-      this.recipe[1].ingredients = ingredients.slice(0, iLength)
+      this.removeEmptyIngredients()
       store.dispatch("changeRecipe", { _id: this.recipe[0], ...this.recipe[1] })
       this.switchEditMode()
+    },
+    removeEmptyIngredients() {
+      for (let i = this.recipe[1].ingredients.length - 1; i >= 0; i--) {
+        if (!this.recipe[1].ingredients[i][2]) {
+          this.recipe[1].ingredients.splice(i, 1)
+        }
+      }
     },
     addIngredientIfNeeded() {
       const ingredients = this.recipe[1].ingredients
       const lastIndex = ingredients.length - 1
       if (
         lastIndex < 0 ||
-        (ingredients[lastIndex][0] &&
-          ingredients[lastIndex][1] &&
-          ingredients[lastIndex][2])
+        ingredients[lastIndex][0] ||
+        ingredients[lastIndex][2]
       )
         this.recipe[1].ingredients.push(["", "", ""])
     },
@@ -145,11 +152,34 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.15);
+  outline: none;
+  border: none;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #909090;
+}
 #lowerPart {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 298px;
+}
+
+.ingredientTable {
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 #buttons {
@@ -177,6 +207,7 @@ button {
 }
 
 .card {
+  text-overflow: ellipsis;
   will-change: transform, filter;
   background-color: var(--white);
   border-radius: 15px;
@@ -213,8 +244,21 @@ table {
   margin: 14px 0 0 0;
   padding: 0 9px 0 0;
   font-size: 18px;
-  font-weight: 300;
+  font-weight: lighter;
   text-align: left;
+  border-collapse: collapse;
+}
+
+td {
+  border-bottom: 2px dashed rgb(200, 200, 200);
+}
+
+td {
+  padding: 4px 0;
+}
+
+tr:last-child td {
+  border-bottom: 0;
 }
 
 input {
