@@ -4,16 +4,45 @@
       <button id="delete" @click="deleteRecipe()">
         <i class="fas fa-trash"></i>
       </button>
-      <button id="edit"><i class="fas fa-pen"></i></button>
+      <button id="edit" @click="switchEditMode">
+        <i class="fas fa-pen"></i>
+      </button>
       <h1 class="recipeName">
         {{ recipe[1].name }}
       </h1>
       <hr />
       <table>
         <tr v-for="ingredient in recipe[1].ingredients" :key="ingredient[2]">
-          <td>{{ ingredient[0] }} {{ ingredient[1] }}</td>
-          <td></td>
-          <td>{{ ingredient[2] }}</td>
+          <td style="width: 20%">
+            <span v-if="!editMode">{{ ingredient[0] }}</span>
+            <input
+              v-if="editMode"
+              type="number"
+              id="amount"
+              placeholder="500"
+              v-model="ingredient[0]"
+            />
+          </td>
+          <td style="width: 15%">
+            <span v-if="!editMode">{{ ingredient[1] }}</span>
+            <input
+              v-if="editMode"
+              type="text"
+              id="unit"
+              placeholder="unit"
+              v-model="ingredient[1]"
+            />
+          </td>
+          <td style="padding-left: 5px">
+            <span v-if="!editMode">{{ ingredient[2] }}</span>
+            <input
+              v-if="editMode"
+              type="text"
+              id="ingredient"
+              placeholder="ingredient"
+              v-model="ingredient[2]"
+            />
+          </td>
         </tr>
       </table>
     </div>
@@ -29,7 +58,9 @@ export default Vue.extend({
   components: { ConfirmDialog },
   name: "HelloWorld",
   data() {
-    return {}
+    return {
+      editMode: false,
+    }
   },
   computed: {
     countSubOne: function () {
@@ -68,6 +99,9 @@ export default Vue.extend({
         this.$emit("deleteRecipe")
         store.dispatch("deleteRecipe", this.recipe[0])
       }
+    },
+    switchEditMode() {
+      this.editMode = !this.editMode
     },
   },
 })
@@ -123,8 +157,15 @@ hr {
 }
 
 table {
-  margin-top: 14px;
+  width: 100%;
+  margin: 14px 0 0 0;
+  padding: 0 9px 0 0;
   font-size: 18px;
   font-weight: 300;
+  text-align: left;
+}
+
+input {
+  width: 100%;
 }
 </style>
