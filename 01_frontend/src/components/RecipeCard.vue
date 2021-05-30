@@ -1,50 +1,57 @@
 <template>
   <div>
     <div class="card" :style="x">
-      <button id="delete" @click="deleteRecipe()">
-        <i class="fas fa-trash"></i>
-      </button>
-      <button id="edit" @click="switchEditMode">
-        <i class="fas fa-pen"></i>
-      </button>
       <h1 class="recipeName">
         {{ recipe[1].name }}
       </h1>
       <hr />
-      <table>
-        <tr v-for="ingredient in recipe[1].ingredients" :key="ingredient[2]">
-          <td style="width: 20%">
-            <span v-if="!editMode">{{ ingredient[0] }}</span>
-            <input
-              v-if="editMode"
-              type="number"
-              id="amount"
-              placeholder="500"
-              v-model="ingredient[0]"
-            />
-          </td>
-          <td style="width: 15%">
-            <span v-if="!editMode">{{ ingredient[1] }}</span>
-            <input
-              v-if="editMode"
-              type="text"
-              id="unit"
-              placeholder="unit"
-              v-model="ingredient[1]"
-            />
-          </td>
-          <td style="padding-left: 5px">
-            <span v-if="!editMode">{{ ingredient[2] }}</span>
-            <input
-              v-if="editMode"
-              type="text"
-              id="ingredient"
-              placeholder="ingredient"
-              v-model="ingredient[2]"
-            />
-          </td>
-        </tr>
-      </table>
+      <div id="lowerPart">
+        <table>
+          <tr v-for="ingredient in recipe[1].ingredients" :key="ingredient[2]">
+            <td style="width: 20%">
+              <span v-if="!editMode">{{ ingredient[0] }}</span>
+              <input
+                v-if="editMode"
+                type="number"
+                id="amount"
+                placeholder="500"
+                v-model="ingredient[0]"
+              />
+            </td>
+            <td style="width: 15%">
+              <span v-if="!editMode">{{ ingredient[1] }}</span>
+              <input
+                v-if="editMode"
+                type="text"
+                id="unit"
+                placeholder="unit"
+                v-model="ingredient[1]"
+              />
+            </td>
+            <td style="padding-left: 5px">
+              <span v-if="!editMode">{{ ingredient[2] }}</span>
+              <input
+                v-if="editMode"
+                type="text"
+                id="ingredient"
+                placeholder="ingredient"
+                v-model="ingredient[2]"
+              />
+            </td>
+          </tr>
+        </table>
+        <div id="buttons">
+          <button id="delete" @click="deleteRecipe()" v-if="editMode">
+            <i class="fas fa-trash"></i>
+          </button>
+          <button id="save">
+            <i class="fas fa-save" v-if="editMode"></i>
+          </button>
+          <button id="edit" @click="switchEditMode">
+            <i class="fas fa-pen"></i>
+          </button>
+        </div>
+      </div>
     </div>
     <confirm-dialog ref="confirmDialog"></confirm-dialog>
   </div>
@@ -108,20 +115,35 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+#lowerPart {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 298px;
+}
+
+#buttons {
+  display: flex;
+  justify-content: flex-end;
+  bottom: 10px;
+  height: 27px;
+  align-items: flex-end;
+}
+button:hover {
+  color: var(--red);
+}
+
+#save {
+  font-size: 19px;
+}
+
 button {
-  position: absolute;
   font-size: 18px;
   background-color: var(--white);
   border: none;
   cursor: pointer;
-}
-#edit {
-  bottom: 15px;
-  right: 10px;
-}
-#delete {
-  bottom: 60px;
-  right: 10px;
+  margin-left: 45px;
+  transition: color 0.1s;
 }
 
 .card {
