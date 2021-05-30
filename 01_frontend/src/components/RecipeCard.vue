@@ -133,9 +133,10 @@ export default Vue.extend({
       const ingredients = this.recipe[1].ingredients
       const lastIndex = ingredients.length - 1
       if (
-        ingredients[lastIndex][0] &&
-        ingredients[lastIndex][1] &&
-        ingredients[lastIndex][2]
+        lastIndex < 0 ||
+        (ingredients[lastIndex][0] &&
+          ingredients[lastIndex][1] &&
+          ingredients[lastIndex][2])
       )
         this.recipe[1].ingredients.push(["", "", ""])
     },
