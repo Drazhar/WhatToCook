@@ -152,23 +152,6 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-::-webkit-scrollbar-track-piece {
-  background-color: rgba(0, 0, 0, 0);
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.15);
-  outline: none;
-  border: none;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: #909090;
-}
 #lowerPart {
   display: flex;
   flex-direction: column;
