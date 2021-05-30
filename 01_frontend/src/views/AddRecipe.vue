@@ -17,7 +17,6 @@
           <input
             type="number"
             name="amount"
-            id="amount"
             class="amount"
             placeholder="500"
             v-model="ingredient[0]"
@@ -25,7 +24,6 @@
           <input
             type="text"
             name="unit"
-            id="unit"
             class="unit"
             placeholder="unit"
             v-model="ingredient[1]"
@@ -33,7 +31,6 @@
           <input
             type="text"
             name="ingredient"
-            id="ingredient"
             class="ingredient"
             placeholder="ingredient"
             v-model="ingredient[2]"

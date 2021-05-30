@@ -1,21 +1,29 @@
 <template>
   <div>
     <div class="card" :style="x">
-      <h1 class="recipeName">
+      <h1 v-if="!editMode" class="recipeName">
         {{ recipe[1].name }}
       </h1>
+      <textarea
+        v-if="editMode"
+        rows="2"
+        name="Name"
+        id="inputRecipeName"
+        placeholder="Enter recipe name"
+        v-model="recipe[1].name"
+      />
       <hr />
       <div id="lowerPart">
         <table>
-          <tr v-for="ingredient in recipe[1].ingredients" :key="ingredient[2]">
+          <tr v-for="(ingredient, i) in recipe[1].ingredients" :key="i">
             <td style="width: 20%">
               <span v-if="!editMode">{{ ingredient[0] }}</span>
               <input
                 v-if="editMode"
                 type="number"
-                id="amount"
                 placeholder="500"
                 v-model="ingredient[0]"
+                @change="addIngredientIfNeeded"
               />
             </td>
             <td style="width: 15%">
@@ -23,9 +31,9 @@
               <input
                 v-if="editMode"
                 type="text"
-                id="unit"
                 placeholder="unit"
                 v-model="ingredient[1]"
+                @change="addIngredientIfNeeded"
               />
             </td>
             <td style="padding-left: 5px">
@@ -33,19 +41,19 @@
               <input
                 v-if="editMode"
                 type="text"
-                id="ingredient"
                 placeholder="ingredient"
                 v-model="ingredient[2]"
+                @change="addIngredientIfNeeded"
               />
             </td>
           </tr>
         </table>
         <div id="buttons">
-          <button id="delete" @click="deleteRecipe()" v-if="editMode">
+          <button id="delete" @click="deleteRecipe" v-if="editMode">
             <i class="fas fa-trash"></i>
           </button>
-          <button id="save">
-            <i class="fas fa-save" v-if="editMode"></i>
+          <button id="save" @click="saveChanges" v-if="editMode">
+            <i class="fas fa-save"></i>
           </button>
           <button id="edit" @click="switchEditMode">
             <i class="fas fa-pen"></i>
@@ -89,6 +97,9 @@ export default Vue.extend({
     x: function () {
       return `transform: translate(-50%, ${this.translate}px) scale(${this.scale}); filter: blur(${this.blur}px);`
     },
+    ingredients: function () {
+      return this.recipe[1].ingredients
+    },
   },
   props: {
     recipe: Array,
@@ -109,6 +120,24 @@ export default Vue.extend({
     },
     switchEditMode() {
       this.editMode = !this.editMode
+      this.addIngredientIfNeeded()
+    },
+    saveChanges() {
+      const ingredients = this.recipe[1].ingredients
+      const iLength = ingredients.length - 1
+      this.recipe[1].ingredients = ingredients.slice(0, iLength)
+      store.dispatch("changeRecipe", { _id: this.recipe[0], ...this.recipe[1] })
+      this.switchEditMode()
+    },
+    addIngredientIfNeeded() {
+      const ingredients = this.recipe[1].ingredients
+      const lastIndex = ingredients.length - 1
+      if (
+        ingredients[lastIndex][0] &&
+        ingredients[lastIndex][1] &&
+        ingredients[lastIndex][2]
+      )
+        this.recipe[1].ingredients.push(["", "", ""])
     },
   },
 })
@@ -189,5 +218,19 @@ table {
 
 input {
   width: 100%;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+}
+
+#inputRecipeName {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  height: 67px;
+  width: 220px;
+  font-size: 26px;
+  font-weight: 500;
+  margin: 0;
+  resize: none;
+  border-style: none;
+  background-color: var(--white);
 }
 </style>

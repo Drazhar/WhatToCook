@@ -40,6 +40,14 @@ export class MongoDB {
     console.log("Deleted: " + result.deletedCount)
   }
 
+  async changeRecipe(recipe) {
+    const result = await this.recipes.updateOne(
+      { _id: recipe._id },
+      { $set: recipe }
+    )
+    console.log("Modified: " + result.modifiedCount)
+  }
+
   updateValue(_id, payload) {
     this.recipes.updateOne({ _id }, { $set: payload })
   }

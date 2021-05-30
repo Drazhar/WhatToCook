@@ -27,6 +27,11 @@ export default new Vuex.Store({
     deleteRecipe(state, recipeId) {
       Vue.delete(state.recipes, recipeId)
     },
+    changeRecipe(state, recipe) {
+      const id = recipe._id
+      delete recipe._id
+      state.recipes[id] = { ...recipe }
+    },
     modifyBox(state, recipe) {
       state.recipes[recipe[0]].box = recipe[1].box
     },
@@ -53,12 +58,16 @@ export default new Vuex.Store({
     },
     async addRecipe({ commit }, recipe) {
       const recipeObject = { ...recipe, _id: nanoid(10), box: 0 }
-      commit("addRecipe", recipeObject)
       axios.post(backendAddress + "addRecipe", recipeObject)
+      commit("addRecipe", recipeObject)
     },
     async deleteRecipe({ commit }, recipeId) {
       commit("deleteRecipe", recipeId)
       axios.post(backendAddress + "deleteRecipe", { recipeId })
+    },
+    changeRecipe({ commit }, recipe) {
+      axios.post(backendAddress + "changeRecipe", { ...recipe })
+      commit("changeRecipe", recipe)
     },
     async increaseBox({ commit }, recipe) {
       recipe[1].box++
@@ -93,7 +102,7 @@ function normalizeBoxes(data) {
   for (const prop in data) if (data[prop].box < minBox) minBox = data[prop].box
   if (minBox > 0) {
     for (const prop in data) data[prop].box -= minBox
-    axios.post(backendAddress + "updateRecipes", data)
+    axios.post(backendAddress + "updateRecipeBoxes", data)
   }
 }
 
