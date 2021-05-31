@@ -1,8 +1,22 @@
 <template>
   <div id="bookmarksSection">
-    <div id="ingredients"></div>
+    <div id="ingredients">
+      <div
+        class="ingredient card"
+        @click="switchState"
+        v-for="ingredient in ingredients"
+        :key="ingredient.name"
+      >
+        <div class="ingName">
+          {{ ingredient.name }}
+        </div>
+        <div class="ingAmount">
+          {{ ingredient.amount }} {{ ingredient.unit }}
+        </div>
+      </div>
+    </div>
     <div id="bookmarks">
-      <div v-for="id in bookmarks" :key="id" class="entry">
+      <div v-for="id in bookmarks" :key="id" class="entry card">
         <button @click="removeRecipe($event, id)">
           <i class="fas fa-times"></i>
         </button>
@@ -33,56 +47,113 @@ export default Vue.extend({
     recipes: function () {
       return store.state.recipes
     },
+    ingredients: function () {
+      const ingredients = {}
+      this.bookmarks.forEach((recipeId) => {
+        if (this.recipes[recipeId]) {
+          this.recipes[recipeId].ingredients.forEach((ingredient) => {
+            if (ingredient[2] in ingredients)
+              ingredients[ingredient[2]].amount += ingredient[0]
+            else
+              ingredients[ingredient[2]] = {
+                name: ingredient[2],
+                amount: ingredient[0],
+                unit: ingredient[1],
+              }
+          })
+        }
+      })
+      delete ingredients[""]
+      return ingredients
+    },
   },
   methods: {
     removeRecipe: function (event, recipeId) {
       store.dispatch("removeRecipeBookmarks", recipeId)
     },
+    switchState: function (event) {
+      const card = searchParentCard(event.target, "card")
+      if (card) card.classList.toggle("checked")
+    },
   },
 })
+
+function searchParentCard(domElement, className) {
+  if (!domElement.outerHTML) return false
+  if (domElement.classList.contains(className)) return domElement
+  return searchParentCard(domElement.parentNode, className)
+}
 </script>
 
 <style scoped>
 #bookmarksSection {
   position: relative;
-  width: 100%;
   height: 100%;
+  width: 100%;
   background-color: var(--green-8);
   z-index: 2;
   display: flex;
   flex-direction: column;
 }
 
-#ingredients {
-  height: 100%;
-}
-
-#bookmarks {
-  overflow-x: auto;
-  overflow-y: hidden;
-  display: flex;
-  flex-wrap: wrap;
-  padding-bottom: 60px;
-}
-
-.entry {
-  flex-grow: 0;
-  flex-shrink: 0;
-  box-shadow: 1px 5px 8px 1px rgba(0, 0, 0, 0.15);
-  font-size: 1.1em;
-  padding: 6px 3px;
-  border-radius: 3px;
+.card {
   background-color: var(--white);
+  box-shadow: 1px 5px 8px 1px rgba(0, 0, 0, 0.15);
   margin: 2px;
   width: 97px;
   height: 60px;
+  border-radius: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+#ingredients {
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.ingredient {
+  font-size: 16px;
+  padding: 4px 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.ingName {
+  flex-grow: 1;
+  text-align: center;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ingAmount {
+  color: rgba(0, 0, 0, 0.7);
+  font-size: 14px;
+}
+
+#bookmarks {
+  height: 200px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  margin-bottom: 15px;
+}
+.entry {
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-size: 1.1em;
+  padding: 6px 3px;
   text-align: left;
   align-items: flex-start;
   align-content: flex-start;
-  overflow: hidden;
-  text-overflow: ellipsis;
   position: relative;
-  cursor: pointer;
 }
 
 .entry button {
@@ -94,6 +165,11 @@ export default Vue.extend({
   font-size: 18px;
   cursor: pointer;
   z-index: 3;
+}
+
+.checked {
+  background-color: var(--blue);
+  opacity: 0.9;
 }
 
 .lds-ellipsis {

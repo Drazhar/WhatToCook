@@ -45,5 +45,6 @@ export default Vue.extend({
   justify-content: space-between;
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
+  overflow: hidden;
 }
 </style>

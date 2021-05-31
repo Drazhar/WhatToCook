@@ -13,7 +13,7 @@ body {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     margin: 0;
     background-color: var(--green);
-    background-image:  radial-gradient(#04ab80 0.75px, transparent 0.75px), radial-gradient(#04ab80 0.75px, #06d6a0 0.75px);
+    background-image: radial-gradient(#04ab80 0.75px, transparent 0.75px), radial-gradient(#04ab80 0.75px, #06d6a0 0.75px);
     background-size: 30px 30px;
     background-position: 0 0,15px 15px;
 }
