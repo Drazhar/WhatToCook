@@ -6,7 +6,6 @@
     "nodemon": "cd 02_backend && npm run watch",
     "vue": "cd 01_frontend && npm run serve",
     "start": "concurrently -k -c blue,red,green \"npm:tsc\" \"npm:nodemon\" \"npm:vue\" ",
-    "postinstall": "npm i && cd 01_frontend && npm i && cd ../02_backend && npm i",
     "test": "concurrently -n frontend,backend -k -c green,red \"cd 01_frontend && npm test\" \"cd 02_backend && npm test\" ",
     "test:coverage": "concurrently -n frontend,backend -k -c green,red \"cd 01_frontend && npm run test:coverage\" \"cd 02_backend && npm run test:coverage\" ",
     "deploy": "node deploy.js"

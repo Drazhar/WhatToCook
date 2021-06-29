@@ -9,7 +9,7 @@ const removedDeploy = fs.rmdir(deployDir, { recursive: true })
 
 const buildBackend = fs
   .rmdir(buildPath, { recursive: true })
-  .then(() => exec("cd 02_backend && tsc"))
+  .then(() => exec("cd 02_backend && npm run build"))
 
 const buildFrontend = fs
   .rmdir(distPath, { recursive: true })

@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest --watch",
     "test:coverage": "jest --collectCoverage",
-    "build": "tsc --watch",
-    "watch": "nodemon -r dotenv/config ./build/index.js dotenv_config_path=./.env.local"
+    "watch": "nodemon -r dotenv/config ./build/index.js dotenv_config_path=./.env.local",
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",
@@ -22,7 +22,7 @@
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
     "ts-jest": "^26.5.5",
-    "typescript": "^4.2.4"
+    "typescript": "^4.3.4"
   },
   "dependencies": {
     "express": "^4.17.1",
